@@ -4,9 +4,11 @@ class Grid {
 
     private String[] values = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
+    // Main constructor
     Grid() {
     }
 
+    // Assign a value in the grid
     boolean SetValue(int position, String value) {
         if (IsPositionValid(position)) {
             values[position - 1] = value;
@@ -18,6 +20,7 @@ class Grid {
         }
     }
 
+    // If the player has two in a row, they can place a third to get three in a row.
     void AiTryWin() {
         if ((values[0].equals("O")) && (values[1].equals("O")) && (values[2].equals("3"))) {
             SetValue(3, "O");
@@ -84,6 +87,7 @@ class Grid {
         }
     }
 
+    // If the opponent has two in a row, the player must play the third themselves to block the opponent.
     private void AiTryBlock() {
         if ((values[0].equals("X")) && (values[1].equals("X")) && (values[2].equals("3"))) {
             SetValue(3, "O");
@@ -150,6 +154,7 @@ class Grid {
         }
     }
 
+    // Create an opportunity where the player has two ways to win (two non-blocked lines of 2).
     private void AiTryFork() {
         if (values[4].equals("X")) {
             if (values[0].equals("O") && (values[8].equals("9"))) {
@@ -173,6 +178,7 @@ class Grid {
         }
     }
 
+    // If there is only one possible fork for the opponent, the player should block it.
     private void AiTryBlockFork() {
         if (values[4].equals("O")) {
             if (values[0].equals("X") && values[8].equals("X")) {
@@ -190,6 +196,7 @@ class Grid {
         }
     }
 
+    // A player marks the center.
     private void AiTryCenter() {
         if (values[4].equals("5")) {
             SetValue(5, "O");
@@ -199,6 +206,7 @@ class Grid {
         }
     }
 
+    // If the opponent is in the corner, the player plays the opposite corner.
     private void AiTryOppositeCorner() {
         if (values[0].equals("X") && (values[8].equals("9"))) {
             SetValue(9, "O");
@@ -217,6 +225,7 @@ class Grid {
         }
     }
 
+    // The player plays in a corner square.
     private void AiTryEmptyCorner() {
         if (values[0].equals("1")) {
             SetValue(1, "O");
@@ -235,6 +244,7 @@ class Grid {
         }
     }
 
+    // The player plays in a middle square on any of the 4 sides.
     private void AiTryEmptySide() {
         if (values[1].equals("2")) {
             SetValue(2, "O");
@@ -253,11 +263,13 @@ class Grid {
         }
     }
 
+    // Check the validity of this position of the grid
     private boolean IsPositionValid(int position)
     {
         return position >= 1 && position <= 9 && !values[position - 1].equals("X") && !values[position - 1].equals("O");
     }
 
+    // Print the grid
     void Show() {
         System.out.println(" " + values[0] + " | " + values[1] + " | " + values[2] + " ");
         System.out.println("-----------");
@@ -266,6 +278,7 @@ class Grid {
         System.out.println(" " + values[6] + " | " + values[7] + " | " + values[8] + " ");
     }
 
+    // Check if the game loop is finished
     boolean NotWonOrComplete() {
         if ((values[0].equals(values[1])) && (values[1].equals(values[2]))) {
             return false;
